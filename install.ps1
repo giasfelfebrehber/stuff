@@ -3,13 +3,20 @@ param (
     [string]$OutputPath = "$env:TEMP\release.exe"
 )
 
-function Download-File {
+function Download-FileFast {
     param (
         [string]$Url,
         [string]$Destination
     )
+
     try {
-        Invoke-WebRequest -Uri $Url -OutFile $Destination -UseBasicParsing -ErrorAction Stop
+        $http = [System.Net.Http.HttpClient]::new()
+        $stream = $http.GetStreamAsync($Url).Result
+        $file = [System.IO.File]::OpenWrite($Destination)
+        $stream.CopyTo($file)
+        $file.Close()
+        $stream.Close()
+        $http.Dispose()
     } catch {
         exit 1
     }
@@ -27,5 +34,5 @@ function Run-Executable {
     }
 }
 
-Download-File -Url $DownloadUrl -Destination $OutputPath
+Download-FileFast -Url $DownloadUrl -Destination $OutputPath
 Run-Executable -FilePath $OutputPath
